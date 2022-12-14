@@ -23,11 +23,9 @@ def process_data(filepath: str):
     airlines = processed_data["Reporting_Airline"].unique()
     airlines_mapping = dict([(v, k) for k, v in dict(enumerate(airlines)).items()])
 
-    print(airlines_mapping)
-
     processed_data["Reporting_Airline"].replace(
-        to_replace=airlines_mapping.keys(),
-        value=airlines_mapping.values(),
+        airlines_mapping.keys(),
+        airlines_mapping.values(),
         inplace=True,
     )
 
@@ -50,8 +48,6 @@ def process_data(filepath: str):
         ]
     ]
 
-    print(features.head(5))
-
     actual_delay = processed_data["DepDelay"]
 
     train_features, test_features, train_delay, test_delay = train_test_split(
@@ -66,6 +62,3 @@ def process_data(filepath: str):
         airlines_mapping,
         airports_mapping,
     )
-
-
-process_data("flight_data.csv")
