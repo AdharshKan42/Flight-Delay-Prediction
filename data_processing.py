@@ -54,6 +54,9 @@ def process_data(filepath: str):
         features, actual_delay, test_size=0.25, random_state=10, shuffle=True
     )
 
+    train_delay = train_delay.values.reshape(-1, 1)
+    test_delay = test_delay.values.reshape(-1, 1)
+
     return (
         train_features,
         test_features,
