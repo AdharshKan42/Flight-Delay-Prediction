@@ -24,9 +24,6 @@ for year in years:
         df = pd.read_csv(f"data/{month}_{year}.csv")
         data = pd.concat([data, df])
 
-print(data.head(5))
-print(data.tail(5))
-
 columns = [
     "Year",
     "Month",
@@ -34,7 +31,9 @@ columns = [
     "DayOfWeek",
     "Reporting_Airline",
     "OriginAirportID",
+    "Origin",
     "DestAirportID",
+    "Dest",
     "DepDelay",
     "Cancelled",
 ]
