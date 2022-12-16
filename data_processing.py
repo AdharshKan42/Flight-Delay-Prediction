@@ -20,30 +20,17 @@ def process_data(filepath: str):
     print(f"Number of Rows in Processed Data: {processed_data.shape[0]}")
     print(f"Number of Rows Removed: {data.shape[0] - processed_data.shape[0]}")
 
-    classes_mapping = {"GALAXY": 0, "QSO": 1, "STAR": 2}
+    categories_mapping = {"GALAXY": 0, "QSO": 1, "STAR": 2}
 
     processed_data["class"].replace(
-        classes_mapping.keys(),
-        classes_mapping.values(),
+        categories_mapping.keys(),
+        categories_mapping.values(),
         inplace=True,
     )
 
-    features = processed_data[
-        [
-            "u",
-            "g",
-            "r",
-            "i",
-            "z",
-            "redshift",
-        ]
-    ]
-
-    print(features.head(10))
+    features = processed_data[["u", "g", "r", "i", "z", "redshift"]]
 
     categories = processed_data["class"]
-
-    print(categories.head(10))
 
     train_features, test_features, train_categories, test_categories = train_test_split(
         features, categories, test_size=0.25, random_state=10, shuffle=True
@@ -57,8 +44,5 @@ def process_data(filepath: str):
         test_features,
         train_categories,
         test_categories,
-        classes_mapping,
+        categories_mapping,
     )
-
-
-process_data("star_classification.csv")
