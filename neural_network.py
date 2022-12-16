@@ -15,7 +15,9 @@ class TorchDataset(Dataset):
         X = x_values.iloc[0 : x_values.shape[0], 0 : x_values.shape[1]].values
 
         self.X_tensor = torch.tensor(X, dtype=torch.float32)
-        self.y_tensor = torch.tensor(y_values, dtype=torch.float32)
+        self.y_tensor = y_values.reshape(
+            -1,
+        )
 
     def __len__(self):
         return len(self.X_tensor)
@@ -40,7 +42,7 @@ class NeuralNetwork(nn.Module):
             )
             network_layers.append(nn.ReLU())
 
-        network_layers[-1] = nn.Softmax()
+        network_layers.pop(-1)
 
         self.network = nn.Sequential(*network_layers)
 
@@ -88,12 +90,12 @@ def test(dataloader, model, loss_fn):
     )
 
 
-model = NeuralNetwork(5, [6, 4, 3]).to(device)
+model = NeuralNetwork(3, [6, 4, 3]).to(device)
 print(model)
 
-batch_size = 25
+batch_size = 20
 loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.002)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 (X_train, X_test, y_train, y_test, categories_mapping) = process_data(
     "star_classification.csv"
@@ -105,7 +107,7 @@ test_dataset = TorchDataset(X_test, y_test)
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size)
 test_dataloader = DataLoader(test_dataset, batch_size=batch_size)
 
-epochs = 5
+epochs = 100
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
     train(train_dataloader, model, loss_fn, optimizer)
