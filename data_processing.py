@@ -13,55 +13,52 @@ def process_data(filepath: str):
         axis=0,
         how="any",
         subset=[
-            "DepDelay",
+            "class",
         ],
     )
 
     print(f"Number of Rows in Processed Data: {processed_data.shape[0]}")
     print(f"Number of Rows Removed: {data.shape[0] - processed_data.shape[0]}")
 
-    airlines = processed_data["Reporting_Airline"].unique()
-    airlines_mapping = dict([(v, k) for k, v in dict(enumerate(airlines)).items()])
+    classes_mapping = {"GALAXY": 0, "QSO": 1, "STAR": 2}
 
-    processed_data["Reporting_Airline"].replace(
-        airlines_mapping.keys(),
-        airlines_mapping.values(),
+    processed_data["class"].replace(
+        classes_mapping.keys(),
+        classes_mapping.values(),
         inplace=True,
     )
 
-    origin_airports = processed_data["Origin"].unique()
-    origin_ids = processed_data["OriginAirportID"].unique()
-    airports_mapping = dict(zip(origin_airports, origin_ids))
-
-    dest_airports = processed_data["Dest"].unique()
-    dest_ids = processed_data["DestAirportID"].unique()
-    airports_mapping.update(dict(zip(dest_airports, dest_ids)))
-
     features = processed_data[
         [
-            "Month",
-            "DayofMonth",
-            "DayOfWeek",
-            "Reporting_Airline",
-            "OriginAirportID",
-            "DestAirportID",
+            "u",
+            "g",
+            "r",
+            "i",
+            "z",
+            "redshift",
         ]
     ]
 
-    actual_delay = processed_data["DepDelay"]
+    print(features.head(10))
 
-    train_features, test_features, train_delay, test_delay = train_test_split(
-        features, actual_delay, test_size=0.25, random_state=10, shuffle=True
+    categories = processed_data["class"]
+
+    print(categories.head(10))
+
+    train_features, test_features, train_categories, test_categories = train_test_split(
+        features, categories, test_size=0.25, random_state=10, shuffle=True
     )
 
-    train_delay = train_delay.values.reshape(-1, 1)
-    test_delay = test_delay.values.reshape(-1, 1)
+    train_categories = train_categories.values.reshape(-1, 1)
+    test_categories = test_categories.values.reshape(-1, 1)
 
     return (
         train_features,
         test_features,
-        train_delay,
-        test_delay,
-        airlines_mapping,
-        airports_mapping,
+        train_categories,
+        test_categories,
+        classes_mapping,
     )
+
+
+process_data("star_classification.csv")
