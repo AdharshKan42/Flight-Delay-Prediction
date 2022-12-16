@@ -19,7 +19,7 @@ model.fit(X_train, y_train)
 
 training_end_time = perf_counter()
 
-print(f"Model took {training_end_time - training_start_time} seconds to train.")
+print(f"Model took {training_end_time - training_start_time:.2f} seconds to train.")
 
 y_pred = model.predict(X_test)
 
