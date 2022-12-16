@@ -11,7 +11,7 @@ X_train, X_test, y_train, y_test, categories_mapping = process_data(
 )
 
 print("Training model...")
-model = LogisticRegression()
+model = LogisticRegression(max_iter=1500)
 
 training_start_time = perf_counter()
 
