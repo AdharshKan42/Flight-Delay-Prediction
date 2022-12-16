@@ -1,7 +1,7 @@
 from sklearn import svm
-from scipy.io import loadmat
 import numpy as np
 import matplotlib.pyplot as plt
+from data_processing import process_data
 
 
 def prep_y_data(arr):
@@ -10,7 +10,7 @@ def prep_y_data(arr):
 
 def classify_points(X_train, X_test, Y_train, Y_test, kernel, ax):
 
-    model = svm.SVR(kernel=kernel)
+    model = svm.SVC(kernel=kernel)
 
     model.fit(X_train, Y_train)
 
@@ -35,15 +35,13 @@ def classify_points(X_train, X_test, Y_train, Y_test, kernel, ax):
 fig, axs = plt.subplots(2, 3)
 
 # load dataset here
-dataset1 = loadmat("ds4400-hw03-dataset/dataset1.mat")
-X_trn_1 = dataset1["X_trn"]
-X_tst_1 = dataset1["X_tst"]
-Y_trn_1 = prep_y_data(dataset1["Y_trn"])
-Y_tst_1 = prep_y_data(dataset1["Y_tst"])
+X_train, X_test, y_train, y_test, categories_mapping = process_data(
+    "star_classification.csv"
+)
 
 print("Running SVM on Dataset 1")
 
 # run program
-classify_points(X_trn_1, X_tst_1, Y_trn_1, Y_tst_1, "linear", axs[0, 0])
-classify_points(X_trn_1, X_tst_1, Y_trn_1, Y_tst_1, "rbf", axs[0, 1])
-classify_points(X_trn_1, X_tst_1, Y_trn_1, Y_tst_1, "poly", axs[0, 2])
+classify_points(X_train, X_test, y_train, y_test, "linear", axs[0, 0])
+classify_points(X_train, X_test, y_train, y_test, "rbf", axs[0, 1])
+classify_points(X_train, X_test, y_train, y_test, "poly", axs[0, 2])

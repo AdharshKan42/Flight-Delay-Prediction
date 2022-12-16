@@ -15,9 +15,7 @@ class TorchDataset(Dataset):
         X = x_values.iloc[0 : x_values.shape[0], 0 : x_values.shape[1]].values
 
         self.X_tensor = torch.tensor(X, dtype=torch.float32)
-        self.y_tensor = y_values.reshape(
-            -1,
-        )
+        self.y_tensor = y_values
 
     def __len__(self):
         return len(self.X_tensor)

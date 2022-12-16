@@ -10,7 +10,7 @@ X_train, X_test, y_train, y_test, classes_mapping = process_data(
 
 print("Training model")
 model = LogisticRegression()
-model.fit(X_train, y_train.ravel())
+model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 

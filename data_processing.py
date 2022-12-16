@@ -36,8 +36,8 @@ def process_data(filepath: str):
         features, categories, test_size=0.25, random_state=10, shuffle=True
     )
 
-    train_categories = train_categories.values.reshape(-1, 1)
-    test_categories = test_categories.values.reshape(-1, 1)
+    train_categories = train_categories.values
+    test_categories = test_categories.values
 
     return (
         train_features,
