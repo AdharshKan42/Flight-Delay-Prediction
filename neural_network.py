@@ -150,7 +150,7 @@ test_avg_losses = []
 
 time_taken = 0
 
-epochs = 50
+epochs = 25
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
     start_time = perf_counter()
