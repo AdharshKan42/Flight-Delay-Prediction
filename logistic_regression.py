@@ -2,7 +2,6 @@ from sklearn.linear_model import LogisticRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
 from data_processing import process_data
-from sklearn.inspection import DecisionBoundaryDisplay
 import pandas as pd
 
 
@@ -19,10 +18,11 @@ model = LogisticRegression(max_iter=1500)
 training_start_time = perf_counter()
 
 model.fit(X_train, y_train)
+model.fit(X_train, y_train)
 
 training_end_time = perf_counter()
 
-print(f"Model took {training_end_time - training_start_time} seconds to train.")
+print(f"Model took {training_end_time - training_start_time:.2f} seconds to train.")
 
 y_pred = model.predict(X_test)
 
@@ -85,6 +85,9 @@ def plot_data(x_ax, y_ax):
     plt.xlabel(x_ax)
     plt.ylabel(y_ax)
 
+    
+sns.pairplot(X_test, hue="Class")
+
     plt.show()
 
 
@@ -95,4 +98,6 @@ plot_data("r", "Class")
 plot_data("i", "Class")
 plot_data("z", "Class")
 plot_data("redshift", "Class")
+
+sns.pairplot(X_test, hue="Class")
 

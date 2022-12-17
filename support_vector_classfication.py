@@ -6,7 +6,7 @@ from time import perf_counter
 
 
 def classify_points(X_train, X_test, y_train, y_test):
-    model = svm.LinearSVC()
+    model = svm.LinearSVC(max_iter=10000)
 
     training_start_time = perf_counter()
 
@@ -14,7 +14,7 @@ def classify_points(X_train, X_test, y_train, y_test):
 
     training_end_time = perf_counter()
 
-    print(f"Model took {training_end_time - training_start_time} seconds to train.")
+    print(f"Model took {training_end_time - training_start_time:.2f} seconds to train.")
 
     print(f"Test Classification Error: {1 - model.score(X_test, y_test):.2f}")
     print(f"Train Classification Accuracy: {model.score(X_train, y_train):.2f}")
