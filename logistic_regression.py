@@ -18,7 +18,7 @@ model = LogisticRegression(max_iter=1500)
 
 training_start_time = perf_counter()
 
-log_model = model.fit(X_train, y_train)
+model.fit(X_train, y_train)
 
 training_end_time = perf_counter()
 
@@ -35,12 +35,12 @@ X_test['Class'] = y_test
 # print(df_y_test.shape)
 # print(X_test.shape)
 # # print(df_y_test.head)
-print(X_test.head)
+# print(X_test.head)
 
 # result = pd.concat([X_test, df_y_test], axis = 1)
 # print(result.head)
 
-sns.pairplot(X_test, hue = "Class")
+# sns.pairplot(X_test, hue = "Class")
 
 # print(X_test.u)
 # print(y_test)
@@ -79,7 +79,20 @@ sns.pairplot(X_test, hue = "Class")
 #     eps=0.5,
 # )
 
-# plt.scatter(X_test[:, 0], X_test[:, 1], c=y_test, edgecolors="k", cmap=plt.cm.Paired)
+def plot_data(x_ax, y_ax):
+    plt.scatter(X_test[x_ax], X_test[y_ax],  c=y_test, edgecolor="k")
+    plt.scatter(X_test[x_ax], y_pred, c="red", marker = "x")
+    plt.xlabel(x_ax)
+    plt.ylabel(y_ax)
+
+    plt.show()
 
 
-plt.show()
+    
+plot_data("u", "Class")
+plot_data("g", "Class")
+plot_data("r", "Class")
+plot_data("i", "Class")
+plot_data("z", "Class")
+plot_data("redshift", "Class")
+
