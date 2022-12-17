@@ -85,12 +85,7 @@ def plot_data(x_ax, y_ax):
     plt.xlabel(x_ax)
     plt.ylabel(y_ax)
 
-    
-sns.pairplot(X_test, hue="Class")
-
     plt.show()
-
-
     
 plot_data("u", "Class")
 plot_data("g", "Class")
