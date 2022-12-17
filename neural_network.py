@@ -57,6 +57,7 @@ totals_per_class_train = [0, 0, 0]
 correct_per_class_test = [0, 0, 0]
 totals_per_class_test = [0, 0, 0]
 
+
 def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
@@ -80,20 +81,23 @@ def train(dataloader, model, loss_fn, optimizer):
         correct += (pred.argmax(1) == y).type(torch.float).sum().item()
 
         for i in range(len(pred)):
-              if pred[i].argmax(0) == y[i]:
+            if pred[i].argmax(0) == y[i]:
                 correct_per_class_train[y[i]] += 1
-              
-              totals_per_class_train[y[i]] += 1
+
+            totals_per_class_train[y[i]] += 1
 
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
-    train_loss = sum(all_losses)/len(all_losses)
+    train_loss = sum(all_losses) / len(all_losses)
     correct /= len(dataloader.dataset)
-    print(f"Train Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n")
+    print(
+        f"Train Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n"
+    )
 
     return train_loss
+
 
 def test(dataloader, model, loss_fn):
     size = len(dataloader.dataset)
@@ -107,17 +111,19 @@ def test(dataloader, model, loss_fn):
             pred = model(X)
             test_loss += loss_fn(pred, y).item()
             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
-            
+
             for i in range(len(pred)):
-              if pred[i].argmax(0) == y[i]:
-                correct_per_class_test[y[i]] += 1
-              
-              totals_per_class_test[y[i]] += 1
+                if pred[i].argmax(0) == y[i]:
+                    correct_per_class_test[y[i]] += 1
+
+                totals_per_class_test[y[i]] += 1
 
     test_loss /= num_batches
     correct /= size
 
-    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+    print(
+        f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n"
+    )
 
     return test_loss
 
@@ -152,29 +158,41 @@ for t in range(epochs):
     end_time = perf_counter()
     time_taken += end_time - start_time
     train_avg_losses.append(train_loss)
-    
+
     test_loss = test(test_dataloader, model, loss_fn)
     test_avg_losses.append(test_loss)
 
 print("Done!")
 print(f"Training the neural network took {time_taken:.2f} seconds.")
 
-plt.plot([i+1 for i in range(epochs)], train_avg_losses, marker="x", color="red", label="Train Avg Loss")
-plt.plot([i+1 for i in range(epochs)], test_avg_losses, marker="o", color="blue", label="Validation Avg Loss")
+plt.plot(
+    [i + 1 for i in range(epochs)],
+    train_avg_losses,
+    marker="x",
+    color="red",
+    label="Train Avg Loss",
+)
+plt.plot(
+    [i + 1 for i in range(epochs)],
+    test_avg_losses,
+    marker="o",
+    color="blue",
+    label="Validation Avg Loss",
+)
 
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.legend()
 
 for i in range(3):
-  category = list(categories_mapping.keys())[i]
+    category = list(categories_mapping.keys())[i]
 
-  print(f"\nClass {category} Accuracy\n-------------------------------")
+    print(f"\nClass {category} Accuracy\n-------------------------------")
 
-  train_acc = correct_per_class_train[i]/totals_per_class_train[i]
-  test_acc = correct_per_class_test[i]/totals_per_class_test[i]
+    train_acc = correct_per_class_train[i] / totals_per_class_train[i]
+    test_acc = correct_per_class_test[i] / totals_per_class_test[i]
 
-  print(f"Training Accuracy: {(100*train_acc):>0.1f}%")
-  print(f"Test Accuracy: {(100*test_acc):>0.1f}%")
+    print(f"Training Accuracy: {(100*train_acc):>0.1f}%")
+    print(f"Test Accuracy: {(100*test_acc):>0.1f}%")
 
 plt.show()
