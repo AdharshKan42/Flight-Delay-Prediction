@@ -10,8 +10,7 @@ def process_data(filepath: str):
 
     print("Removing rows with no class identified...")
 
-    # Removes any rows with no value in the table for
-    # time delayed for departure (DepDelay)
+    # Removes any rows with no value in the table (N/A)
     processed_data = data.dropna(
         axis=0,
         how="any",

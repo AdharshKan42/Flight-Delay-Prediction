@@ -1,6 +1,4 @@
 from sklearn import svm
-import numpy as np
-import matplotlib.pyplot as plt
 from data_processing import process_data
 from time import perf_counter
 
